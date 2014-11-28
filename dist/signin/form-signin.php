@@ -1,13 +1,13 @@
-<?phpOA
+<?php
 	$username = $_REQUEST['username'];
 	$password = $_REQUEST['password'];
 
-	$queryPatientUsername = "SELECT Patient_Id FROM Patient WHERE Username = '$username'";
-	$queryPatientPassword = "SELECT Patient_Id FROM Patient WHERE Password = '$password'";
-	$queryDoctorUsername = "SELECT Doctor_Id FROM Doctor WHERE Username = '$username'";
-	$queryDoctorPassword = "SELECT Doctor_Id FROM Doctor WHERE Password = '$password'";
-	$queryHospitalUsername = "SELECT Hospital_Id FROM Patient WHERE Username = '$username'";
-	$queryHospitalPassword = "SELECT Hospital_Id FROM Patient WHERE Password = '$password'";
+	$queryPatientUsername = "SELECT patient_id FROM Patient WHERE username = '$username'";
+	$queryPatientPassword = "SELECT patient_id FROM Patient WHERE password = '$password'";
+	$queryDoctorUsername = "SELECT doctor_id FROM Doctor WHERE username = '$username'";
+	$queryDoctorPassword = "SELECT doctor_id FROM Doctor WHERE password = '$password'";
+	$queryHospitalUsername = "SELECT hospital_id FROM Hospital WHERE username = '$username'";
+	$queryHospitalPassword = "SELECT hospital_id FROM Hospital WHERE password = '$password'";
 
 
 	$hostName = "mysql.eecs.ku.edu";
@@ -18,8 +18,8 @@
 	mysql_select_db('bmitchel');
 	
 
-
-$query_result = mysql_query( $query, $conn);
+echo 'hello';
+$query_result = mysql_query( $queryPatientUsername, $conn);
 $row = mysql_fetch_array($query_result);
-echo $row['Patient_Id'];
+echo $row['patient_id'];
 ?>
