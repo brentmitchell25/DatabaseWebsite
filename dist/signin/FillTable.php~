@@ -1,0 +1,30 @@
+<?php
+	$query = "LOAD DATA INFILE 'HospitalNames.txt' INTO TABLE HospitalNames LINES TERMINATED BY '\r\n' (HospitalName)";
+
+	$conn = mysql_connect('mysql.eecs.ku.edu','bmitchel','hello') or die('Could not connect: ' . mysql_error());
+	echo mysql_errno($conn) . ": " . mysql_error($conn) . "\n";
+	mysql_select_db('bmitchel');
+
+
+	$file = file('prescriptions.txt') or die("Couldn't handle file");
+	$length = count($file);
+
+
+	
+
+	$len = 3;
+	for($i = 1;$i <= $len; $i++) {
+	       	     $patientrand = mt_rand(1,1000);
+	       	     $doctorrand = mt_rand(1,300);
+		     $rand = mt_rand(0,count($file)-1);
+
+//		     $query = "UPDATE Doctor SET hospital_id = '$rand' WHERE doctor_id = '$i'";
+		     $query = "INSERT INTO Prescription(patient_id,doctor_id,prescription) VALUES($patientrand,$doctorrand,$file[$rand]);
+		     $query_result = mysql_query( $query, $conn);
+		     echo mysql_errno($conn) . ": " . mysql_error($conn) . "\n";
+
+	}
+
+echo 'hello';
+
+?>
