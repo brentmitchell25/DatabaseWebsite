@@ -1,5 +1,4 @@
 <?php
-	$query = "LOAD DATA INFILE 'HospitalNames.txt' INTO TABLE HospitalNames LINES TERMINATED BY '\r\n' (HospitalName)";
 
 	$conn = mysql_connect('mysql.eecs.ku.edu','bmitchel','hello') or die('Could not connect: ' . mysql_error());
 	echo mysql_errno($conn) . ": " . mysql_error($conn) . "\n";

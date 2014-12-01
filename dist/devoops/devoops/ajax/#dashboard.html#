@@ -11,7 +11,7 @@
 <!--Start Dashboard 1-->
 <div id="dashboard-header" class="row">
 	<div class="col-xs-10 col-sm-2">
-		<h3>Hello Doctor!</h3>
+		<h3>Hello Doctor</h3>
 	</div>
 </div>
 <!--End Dashboard 1-->
@@ -64,10 +64,10 @@ $.ajax({
  
 });
     var count = 0;
-    for(var i = 0; i < array.length;i=i+5) {
+    for(var i = 0; i < array.length;i=i+4) {
 
 		       row = table.insertRow(i-4*count+1);
-		       row.insertCell(0).innerHTML = "<td class='m-ticker beauty hover'>" + array[i] + "</td>";
+		       row.insertCell(0).innerHTML = "<td class='m-ticker'>" + array[i] + "<span></span></td>";
 		       row.insertCell(1).innerHTML = "<td class='m-price'>" + array[i+1] + "</td>";
 		       row.insertCell(2).innerHTML = "<td class='m-change'>" + array[i+2] + "</td>";
 		       row.insertCell(3).innerHTML = "<td class='m-change'>" + array[i+3] + "</td>";

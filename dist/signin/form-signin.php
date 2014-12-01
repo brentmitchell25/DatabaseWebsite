@@ -2,7 +2,8 @@
 	session_start();
 	$username = $_REQUEST['username'];
 	$password = $_REQUEST['password'];
-$_SESSION['id'] = 0;
+	$_SESSION['id'] = 0;
+	$_SESSION['permission'] = 'none';
 	$queryPatientUsername = "SELECT patient_id FROM Patient WHERE username = '$username'";
 	$queryPatientPassword = "SELECT patient_id FROM Patient WHERE password = '$password'";
 	$queryDoctorUsername = "SELECT doctor_id FROM Doctor WHERE username = '$username'";
@@ -25,6 +26,8 @@ $_SESSION['id'] = 0;
 	if($username['patient_id'] == $password['patient_id'] and $rowCountUsername > 0 and $rowCountPassword > 0) {
 echo 'here1' . "<BR>";
 		$_SESSION['id'] = $username['patient_id'];
+		$_SESSION['permission'] = 'patient_id';
+
 	} else {
 		$query_username = mysql_query( $queryDoctorUsername, $conn);
 		$query_password = mysql_query( $queryDoctorPassword, $conn);
@@ -34,8 +37,8 @@ echo 'here1' . "<BR>";
 		$password = mysql_fetch_array($query_password);
 
 		if($username['doctor_id'] == $password['doctor_id'] and $rowCountUsername > 0 and $rowCountPassword > 0) {
-echo 'here2' . "<BR>";	
-		$_SESSION['id'] = $username['doctor_id'];
+			$_SESSION['id'] = $username['doctor_id'];
+			$_SESSION['permission'] = 'doctor_id';
 		}
 /*		 else {
 			$query_username = mysql_query( $queryHospitalUsername, $conn);
@@ -47,10 +50,13 @@ echo 'here2' . "<BR>";
 	
 			if($username['hospital_id'] == $password['hospital_id'] and $rowCountUsername > 0 and $rowCountPassword > 0) {
 				$_SESSION['id'] = $username['hospital_id'];
+				$_SESSION['permission'] = 'hospital_id';
+
 			}
 		}    
 */
 	}
-	
-	echo $_SESSION['id'];
+	if($_SESSION['id'] > 0) {
+			   header("Location:http://people.eecs.ku.edu/~bmitchel/DatabaseWebpage/dist/devoops/devoops/");
+	}
 ?>
