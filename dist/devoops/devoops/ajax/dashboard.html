@@ -10,22 +10,12 @@
 <!--End Breadcrumb-->
 <!--Start Dashboard 1-->
 <div id="dashboard-header" class="row">
-	<div class="col-xs-10 col-sm-2">
-		<h3>Hello Doctor!</h3>
-	</div>
+	<h3 id="hello"></h3>
 </div>
 <!--End Dashboard 1-->
 <!--Start Dashboard 2-->
 <div class="row-fluid">
-	<div id="dashboard_links" class="col-xs-12 col-sm-2 pull-right">
-		<ul class="nav nav-pills nav-stacked">
-			<li class="active"><a href="#" class="tab-link" id="overview">Overview</a></li>
-			<li><a href="#" class="tab-link" id="clients">Clients</a></li>
-			<li><a href="#" class="tab-link" id="graph">Statistics</a></li>
-			<li><a href="#" class="tab-link" id="servers">Servers</a></li>
-		</ul>
-	</div>
-	<div id="dashboard_tabs" class="col-xs-12 col-sm-10">
+	<div id="dashboard_tabs" class="col-xs-12">
 		<!--Start Dashboard Tab 1-->
 		<div id="dashboard-overview" class="row" style="visibility: visible; position: relative;">
 
@@ -46,13 +36,15 @@
 
     var numberOfColumns;
     var array;
+    var name;
 
 $.ajax({
     async: false,
-    url: "http://people.eecs.ku.edu/~bmitchel/DatabaseWebpage/dist/devoops/devoops/ajax/dashboardSQL.php",
+    url: "http://people.eecs.ku.edu/~bmitchel/DatabaseWebsite/dist/devoops/devoops/ajax/dashboardSQL.php",
     dataType: "json",
     success: function(result) {
           numberOfColumns = result.numberOfColumns;
+          name = result.name;
           array = result.array;
     },
     error: function(a,b,c){
@@ -63,22 +55,38 @@ $.ajax({
 }
  
 });
+    $("#hello").text("Hello " + name + "!");
+
     var count = 0;
     for(var i = 0; i < array.length;i=i+5) {
 
 		       row = table.insertRow(i-4*count+1);
-		       row.insertCell(0).innerHTML = "<td class='m-ticker beauty hover'>" + array[i] + "</td>";
-		       row.insertCell(1).innerHTML = "<td class='m-price'>" + array[i+1] + "</td>";
-		       row.insertCell(2).innerHTML = "<td class='m-change'>" + array[i+2] + "</td>";
-		       row.insertCell(3).innerHTML = "<td class='m-change'>" + array[i+3] + "</td>";
-		       row.insertCell(4).innerHTML = "<td class='td-graph'>" + array[i+4] + "</td>";
+		       row.insertCell(0).innerHTML = "<td id='patient_id'>" + array[i] + "</td>";
+		       row.insertCell(1).innerHTML = "<td class='name'>" + array[i+1] + "</td>";
+		       row.insertCell(2).innerHTML = "<td class='prescription'>" + array[i+2] + "</td>";
+		       row.insertCell(3).innerHTML = "<input id = 'refill' type='text' id='TEXTBOX_ID' placeholder='" + array[i+3] + "'/>";
+		       row.insertCell(4).innerHTML = "<td class='visit'>" + array[i+4] + "</td>";
 		       count++;
     }
+
 </script>
 					</tbody>
 				</table>
 			</div>
 		</div>
+	<input id="submit" type="button" value="Submit">
+<script>
+$("#submit").on("click",function(){
+$("#ticker-table tr").each(function(){
+    $(this).find("td").each(function(){
+if($(".refill").val() != null)
+    console.log("#patient_id");
+    console.log($("#refill").val());
+    })
+})
+  
+    });
+</script>
 		<!--End Dashboard Tab 1-->
 		<!--Start Dashboard Tab 2-->
 		<div id="dashboard-clients" class="row" style="visibility: hidden; position: absolute;">
