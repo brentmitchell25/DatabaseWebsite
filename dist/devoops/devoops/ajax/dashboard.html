@@ -61,11 +61,26 @@ $.ajax({
     for(var i = 0; i < array.length;i=i+5) {
 
 		       row = table.insertRow(i-4*count+1);
-		       row.insertCell(0).innerHTML = "<td id='patient_id'>" + array[i] + "</td>";
-		       row.insertCell(1).innerHTML = "<td class='name'>" + array[i+1] + "</td>";
-		       row.insertCell(2).innerHTML = "<td class='prescription'>" + array[i+2] + "</td>";
-		       row.insertCell(3).innerHTML = "<input id = 'refill' type='text' id='TEXTBOX_ID' placeholder='" + array[i+3] + "'/>";
-		       row.insertCell(4).innerHTML = "<td class='visit'>" + array[i+4] + "</td>";
+		       var newCell = row.insertCell(0);
+		       newCell.innerHTML = "<td id='patient_id'>" + array[i] + "</td>";
+		       newCell.className = 'patient_id';
+
+		       newCell = row.insertCell(1);
+		       newCell.innerHTML = "<td>" + array[i+1] + "</td>"; 
+		       newCell.className = 'name';
+
+		       newCell = row.insertCell(2);
+		       newCell.innerHTML = "<td>" + array[i+2] + "</td>";
+		       newCell.className = 'prescription';
+
+       		       newCell = row.insertCell(3);
+		       newCell.innerHTML = "<input id = 'refill' type='text' id='TEXTBOX_ID' placeholder='" + array[i+3] + "'/>";
+//		       newCell.className = refill;
+
+		       newCell = row.insertCell(4);
+		       newCell.innerHTML = "<td class='visit'>" + array[i+4] + "</td>";
+		       newCell.className = 'visit';
+
 		       count++;
     }
 
@@ -77,13 +92,15 @@ $.ajax({
 	<input id="submit" type="button" value="Submit">
 <script>
 $("#submit").on("click",function(){
-$("#ticker-table tr").each(function(){
-    $(this).find("td").each(function(){
-if($(".refill").val() != null)
-    console.log("#patient_id");
-    console.log($("#refill").val());
-    })
-})
+
+$("#ticker-table td:nth-child(4)").each(function (index) {
+//console.log($(this));
+//console.log($(this)[0].childNodes[0].value);
+if($(this)[0].childNodes[0].value != ''){
+   console.log('Row no. ' + (index+1) + ', Column 2 : ' + $(this)[0].childNodes[0].value);}
+});
+
+
   
     });
 </script>
