@@ -63,6 +63,7 @@ $.ajax({
 		       row = table.insertRow(i-4*count+1);
 		       var newCell = row.insertCell(0);
 		       newCell.innerHTML = "<td id='patient_id'>" + array[i] + "</td>";
+
 		       newCell.className = 'patient_id';
 
 		       newCell = row.insertCell(1);
@@ -94,10 +95,32 @@ $.ajax({
 $("#submit").on("click",function(){
 
 $("#ticker-table td:nth-child(4)").each(function (index) {
-//console.log($(this));
-//console.log($(this)[0].childNodes[0].value);
-if($(this)[0].childNodes[0].value != ''){
-   console.log('Row no. ' + (index+1) + ', Column 2 : ' + $(this)[0].childNodes[0].value);}
+var refill =  $(this)[0].childNodes[0].value;
+
+if(refill != ''){
+var patientId = $(this).prev().prev().prev().html(); // gets patient id
+var prescription = $(this).prev().html(); // gets prescription name
+var test;
+
+
+$.ajax({
+    async: false,
+    url: "http://people.eecs.ku.edu/~bmitchel/DatabaseWebsite/dist/devoops/devoops/ajax/dashboardUpdatePatientRefill.php",
+    dataType: "json",
+    data: {PATIENT_ID: patientId, PRESCRIPTION: prescription, REFILL: refill},
+    success: function(result) {
+          test = result.success;
+    },
+    error: function(a,b,c){
+    console.log(a);
+    console.log(b);
+    console.log(c);
+}                               
+
+});
+
+}
+
 });
 
 

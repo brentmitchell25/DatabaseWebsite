@@ -1,0 +1,12 @@
+<?php   
+    $patientId = $_POST["PATIENT_ID"];
+    $prescription = $_POST["PRESCRIPTION"];
+    $refill = $_POST["REFILL"];
+
+    switch($_POST["functionname"]){ 
+
+        case 'doctorUpdatePatientRefill': 
+            EnviaCorreoDesdeWeb($patientId, $prescription, $refill);
+            break;      
+    }   
+?>
