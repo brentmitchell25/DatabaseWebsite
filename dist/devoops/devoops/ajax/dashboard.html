@@ -20,13 +20,8 @@
 		<div id="dashboard-overview" class="row" style="visibility: visible; position: relative;">
 
 				<table id="ticker-table" class="table m-table table-bordered table-hover table-heading">
-					<thead>
-						<tr>
-							<th>Patient Id</th>
-							<th>Name</th>
-							<th>Precriptions</th>
-							<th>Refills</th>
-							<th>Last Visit</th>
+				       <thead>
+						<tr id = "header">
 						</tr>
 					</thead>
 					<tbody>
@@ -34,7 +29,7 @@
 					  <script>
     var table = document.getElementById('ticker-table');
 
-    var numberOfColumns;
+    var permission = "none";
     var array;
     var name;
 
@@ -43,7 +38,7 @@ $.ajax({
     url: "http://people.eecs.ku.edu/~bmitchel/DatabaseWebsite/dist/devoops/devoops/ajax/dashboardSQL.php",
     dataType: "json",
     success: function(result) {
-          numberOfColumns = result.numberOfColumns;
+          permission = result.permission;
           name = result.name;
           array = result.array;
     },
@@ -52,12 +47,18 @@ $.ajax({
     console.log(b);
     console.log(c);
 
-}
- 
+} 
 });
+    if(permission == "patient_id")
+         $("#header").html("<th>Patient Id</th><th>Name</th><th>Email</th><th>Phone Number</th><th>Prescription</th><th>Refill</th>");
+    else if(permission == "doctor_id")
+         $("#header").html("<th>Patient Id</th><th>Name</th><th>Precriptions</th><th>Refills</th><th>Last Visit</th>");
+    else if(permission == "hospital_id")
+         $("#header").html("<th>Doctor Id</th><th>Name</th><th>Email</th><th>Phone Number</th><th>Speciality</th>");
     $("#hello").text("Hello " + name + "!");
 
     var count = 0;
+
     for(var i = 0; i < array.length;i=i+5) {
 
 		       row = table.insertRow(i-4*count+1);

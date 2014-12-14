@@ -1,4 +1,5 @@
 <?php
+ini_set("display_errors", TRUE);
 	session_start();
 	$username = $_REQUEST['username'];
 	$password = $_REQUEST['password'];
@@ -36,8 +37,8 @@
 			$login = mysql_fetch_array($hospital);
 	
 			if($rowCountLogin > 0) {
-				$_SESSION['id'] = $username['hospital_id'];
-				$_SESSION['name'] = $login['name'];
+				$_SESSION['id'] = $login['hospital_id'];
+				$_SESSION['name'] = trim($login['name']);
 				$_SESSION['permission'] = 'hospital_id';
 
 			}
