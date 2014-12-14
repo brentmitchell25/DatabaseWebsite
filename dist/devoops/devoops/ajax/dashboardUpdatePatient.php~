@@ -1,0 +1,28 @@
+<?php   
+	session_start();
+    $patientId = $_SESSION['id'];
+    $email = $_REQUEST["EMAIL"];
+    $phoneNumber = $_REQUEST["PHONE_NUMBER"];
+    $prescription = $_REQUEST["PRESCRIPTION"];
+    $refill = $_REQUEST["REFILL"];
+    echo 'hi' . $phoneNumber;
+    $conn = mysql_connect('mysql.eecs.ku.edu','bmitchel','hello') or die('Could not connect: ' . mysql_error());
+	mysql_select_db('bmitchel');
+
+	if($email != '') {
+	  $sql = "update Patient set email = '$email' where patient_id = '$patientId'";
+	$query = mysql_query($sql,$conn);
+
+	} 
+	if($phoneNumber != '') {
+	  $sql = "update Patient set phone_number = '$phoneNumber' where patient_id = '$patientId'";
+	$query = mysql_query($sql,$conn);
+
+	}
+	if($refill != '') {
+	  $sql = "update Prescription r set r.refill = '$refill' where r.patient_id = '$patientId' and r.prescription = '$prescription'";
+	$query = mysql_query($sql,$conn);
+
+	}
+
+?>

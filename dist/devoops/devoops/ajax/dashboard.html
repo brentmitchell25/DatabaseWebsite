@@ -49,22 +49,52 @@ $.ajax({
 
 } 
 });
-    if(permission == "patient_id")
-         $("#header").html("<th>Patient Id</th><th>Name</th><th>Email</th><th>Phone Number</th><th>Prescription</th><th>Refill</th>");
-    else if(permission == "doctor_id")
-         $("#header").html("<th>Patient Id</th><th>Name</th><th>Precriptions</th><th>Refills</th><th>Last Visit</th>");
-    else if(permission == "hospital_id")
-         $("#header").html("<th>Doctor Id</th><th>Name</th><th>Email</th><th>Phone Number</th><th>Speciality</th>");
-    $("#hello").text("Hello " + name + "!");
 
     var count = 0;
+    if(permission == "patient_id") {
+         $("#header").html("<th>Patient Id</th><th>Name</th><th>Email</th><th>Phone Number</th><th>Prescription</th><th>Refill</th>");
 
-    for(var i = 0; i < array.length;i=i+5) {
+         for(var i = 0; i < array.length;i=i+6) {
+
+		       row = table.insertRow(i-5*count+1);
+		       var newCell = row.insertCell(0);
+		       newCell.innerHTML = "<td>" + array[i] + "</td>";
+		       newCell.className = 'patient_id';
+
+		       newCell = row.insertCell(1);
+		       newCell.innerHTML = "<td>" + array[i+1] + "</td>"; 
+		       newCell.className = 'name';
+
+		       newCell = row.insertCell(2);
+		if(i == 0)
+		       newCell.innerHTML = "<input id = 'email' type='text' id='TEXTBOX_ID' placeholder='" + array[i+2] + "'/>";
+		else
+			    		       newCell.innerHTML = "<td>" + array[i+2] + "</td>"; 
+
+       		       newCell = row.insertCell(3);
+		if(i == 0)
+		       newCell.innerHTML = "<input id = 'phone_number' type='text' id='TEXTBOX_ID' placeholder='" + array[i+3] + "'/>";
+		else
+			    		       newCell.innerHTML = "<td>" + array[i+3] + "</td>"; 
+		       newCell = row.insertCell(4);
+		       newCell.innerHTML = "<td>" + array[i+4] + "</td>";
+		       newCell.className = 'prescription';
+
+       		       newCell = row.insertCell(5);
+		       newCell.innerHTML = "<input id = 'refill' type='text' id='TEXTBOX_ID' placeholder='" + array[i+5] + "'/>";
+
+		       count++;
+	}
+    
+    }
+    else if(permission == "doctor_id") {
+         $("#header").html("<th>Patient Id</th><th>Name</th><th>Precriptions</th><th>Refills</th><th>Last Visit</th>");
+        
+         for(var i = 0; i < array.length;i=i+5) {
 
 		       row = table.insertRow(i-4*count+1);
 		       var newCell = row.insertCell(0);
-		       newCell.innerHTML = "<td id='patient_id'>" + array[i] + "</td>";
-
+		       newCell.innerHTML = "<td>" + array[i] + "</td>";
 		       newCell.className = 'patient_id';
 
 		       newCell = row.insertCell(1);
@@ -77,14 +107,49 @@ $.ajax({
 
        		       newCell = row.insertCell(3);
 		       newCell.innerHTML = "<input id = 'refill' type='text' id='TEXTBOX_ID' placeholder='" + array[i+3] + "'/>";
-//		       newCell.className = refill;
 
 		       newCell = row.insertCell(4);
-		       newCell.innerHTML = "<td class='visit'>" + array[i+4] + "</td>";
+		       newCell.innerHTML = "<td>" + array[i+4] + "</td>";
 		       newCell.className = 'visit';
 
 		       count++;
+	}
+    
     }
+    else if(permission == "hospital_id") {
+         $("#header").html("<th>Doctor Id</th><th>Name</th><th>Email</th><th>Phone Number</th><th>Speciality</th>");
+         for(var i = 0; i < array.length;i=i+5) {
+
+		       row = table.insertRow(i-4*count+1);
+		       var newCell = row.insertCell(0);
+		       newCell.innerHTML = "<td>" + array[i] + "</td>";
+		       newCell.className = 'patient_id';
+
+		       newCell = row.insertCell(1);
+		       newCell.innerHTML = "<td>" + array[i+1] + "</td>"; 
+		       newCell.className = 'name';
+
+		       newCell = row.insertCell(2);
+		       newCell.innerHTML = "<td>" + array[i+2] + "</td>";
+		       newCell.className = 'prescription';
+
+       		       newCell = row.insertCell(3);
+		       newCell.innerHTML = "<td>" + array[i+3] + "</td>";
+		       newCell.className = 'refill';
+
+		       newCell = row.insertCell(4);
+		       newCell.innerHTML = "<td>" + array[i+4] + "</td>";
+		       newCell.className = 'visit';
+
+		       count++;
+	}
+    
+    }
+    $("#hello").text("Hello " + name + "!");
+
+
+
+    
 
 </script>
 					</tbody>
@@ -94,7 +159,31 @@ $.ajax({
 	<input id="submit" type="button" value="Submit">
 <script>
 $("#submit").on("click",function(){
+if(permission == "patient_id") {
+$("#ticker-table td:nth-child(6)").each(function (index) {
+var refill =  $(this)[0].childNodes[0].value;
+var phoneNumber = $(this).prev().prev()[0].childNodes[0].value;
+var email = $(this).prev().prev().prev()[0].childNodes[0].value;
+console.log(phoneNumber);
+if(refill != '' || phoneNumber != '' || email != ''){
+var patientId = $(this).prev().prev().prev().prev().prev().html(); // gets patient id
+var prescription = $(this).prev().html(); // gets prescription name
+var test;
 
+$.ajax({
+    async: false,
+    url: "http://people.eecs.ku.edu/~bmitchel/DatabaseWebsite/dist/devoops/devoops/ajax/dashboardUpdatePatient.php",
+    dataType: "json",
+    data: {EMAIL: email, PHONE_NUMBER: phoneNumber, PRESCRIPTION: prescription, REFILL: refill},
+    success: function(result) {
+          test = result.success;
+    },
+});
+location.reload();
+}
+})
+}
+if(permission == "doctor_id") {
 $("#ticker-table td:nth-child(4)").each(function (index) {
 var refill =  $(this)[0].childNodes[0].value;
 
@@ -119,14 +208,10 @@ $.ajax({
 }                               
 
 });
-
-}
-
+}  
 });
-
-
-  
-    });
+}
+});
 </script>
 		<!--End Dashboard Tab 1-->
 		<!--Start Dashboard Tab 2-->
@@ -348,8 +433,7 @@ $(document).ready(function() {
 	LoadKnobScripts(DrawKnobDashboard);
 	// Load Sparkline plugin and run callback for draw Sparkline charts for dashboard(top of dashboard + plot in tables)
 	LoadSparkLineScript(DrawSparklineDashboard);
-	// Load Morris plugin and run callback for draw Morris charts for dashboard
-	LoadMorrisScripts(MorrisDashboard);
+
 	// Make beauty hover in table
 	$("#ticker-table").beautyHover();
 });

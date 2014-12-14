@@ -47,5 +47,7 @@ ini_set("display_errors", TRUE);
 	}
 	if($_SESSION['id'] > 0) {
 			   header("Location:http://people.eecs.ku.edu/~bmitchel/DatabaseWebsite/dist/devoops/devoops/");
+	} else {
+		   header("Location:http://people.eecs.ku.edu/~bmitchel/DatabaseWebsite/dist/signin/");
 	}
 ?>
